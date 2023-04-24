@@ -41,18 +41,29 @@ jobs:
         run: npm install
       - name: Install other dependencies
         run: sudo apt-get install python3 tilemaker osmosis wget
-      - name: Cache raw geodata
-        id: cache-geodata
+      - name: Cache vector tiles
+        id: cache-tiles
         uses: actions/cache@v3
         with:
-          path: oberbayern-latest.osm.pbf
-          key: oberbayern-latest
+          path: ./public/basetiles
+          key: basetiles
       - name: Download raw geodata
-        if: steps.cache-geodata.outputs.cache-hit != 'true'
+        if: steps.cache-tiles.outputs.cache-hit != 'true'
         run: wget https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf
-      - name: Build basetiles
-        shell: pwsh
-        run: ./basetiles.ps1
+      - name: Clip geodata
+        if: steps.cache-tiles.outputs.cache-hit != 'true'
+        run: osmosis --rb ./oberbayern-latest.osm.pbf --bb left=11.32 bottom=47.97 right=11.86 top=48.29 clipIncompleteEntities=true --wb ./basetiles.pbf
+      - name: Generate vector tiles
+        if: steps.cache-tiles.outputs.cache-hit != 'true'
+        uses: systemed/tilemaker@v2.0.0
+        with:
+          input: ./basetiles.pbf
+          output: ./basetiles.mbtiles
+          config: ./tilemakerconfig.json
+          process: ./tilemakerprocess.lua
+      - name: Extract Tiles
+        if: steps.cache-tiles.outputs.cache-hit != 'true'
+        run: python ./mbutil/mb-util ./basetiles.mbtiles ./public/basetiles --image_format=pbf
       - name: Build
         run: npm run build
       - name: Setup Pages
