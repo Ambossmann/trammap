@@ -27,7 +27,7 @@ const map = new Map({
   ],
   view: new View({
     center: olProj.fromLonLat([11.57537, 48.13712]),
-    extent: olProj.fromLonLat([11.32, 47.97]).concat(olProj.fromLonLat([11.86, 48.29])),
+    extent: olProj.fromLonLat([10.79, 47.84]).concat(olProj.fromLonLat([12.32, 48.43])),
     zoom: 13,
     maxZoom: 24
   })

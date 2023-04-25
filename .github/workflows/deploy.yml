@@ -55,7 +55,7 @@ jobs:
         run: wget https://download.geofabrik.de/europe/germany/bayern-latest.osm.pbf -O "./tmp/bayern-latest.osm.pbf"
       - name: Clip geodata
         if: steps.cache-tiles.outputs.cache-hit != 'true'
-        run: osmosis --rb "./tmp/bayern-latest.osm.pbf" --bb left=11.32 bottom=47.97 right=11.86 top=48.29 clipIncompleteEntities=true --write-xml "./tmp/basetiles.osm"
+        run: osmosis --rb "./tmp/bayern-latest.osm.pbf" --bb left=10.79 bottom=47.84 right=12.32 top=48.43 clipIncompleteEntities=true --write-xml "./tmp/basetiles.osm"
       - name: Remove tram rails from data
         if: steps.cache-tiles.outputs.cache-hit != 'true'
         run: osmfilter "./tmp/basetiles.osm" --drop-ways="railway=tram" --drop-ways="razed:railway=tram" --drop-ways="abandoned:railway=tram" --drop-ways="disused:railway=tram" -o="./tmp/basetiles-reduced.osm"
