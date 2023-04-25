@@ -47,6 +47,9 @@ jobs:
         with:
           path: ./public/basetiles
           key: basetiles
+      - name: Create tmp dir
+        if: steps.cache-tiles.outputs.cache-hit != 'true'
+        run: mkdir tmp
       - name: Download raw geodata
         if: steps.cache-tiles.outputs.cache-hit != 'true'
         run: wget https://download.geofabrik.de/europe/germany/bayern-latest.osm.pbf -O "./tmp/bayern-latest.osm.pbf"
