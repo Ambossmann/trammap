@@ -6,7 +6,7 @@ import * as olTileGrid from 'ol/tilegrid';
 import VectorTileLayer from 'ol/layer/VectorTile';
 import VectorTileSource from 'ol/source/VectorTile';
 import MVT from 'ol/format/MVT';
-import {applyStyle} from 'ol-mapbox-style'
+import {applyStyle} from 'ol-mapbox-style';
 
 const baseLayer = new VectorTileLayer({
   declutter: true,
@@ -33,4 +33,5 @@ const map = new Map({
   })
 });
 
-applyStyle(baseLayer, "/trammap/mapstyles/osm-bright-gl-style/style.json", {updateSource: false})
+//applyStyle(baseLayer, "/trammap/mapstyles/osm-bright-gl-style/style.json", {updateSource: false})
+applyStyle(baseLayer, "/trammap/mapstyles/positron-gl-style/style.json", {updateSource: false})
