@@ -1,8 +1,7 @@
-node_modules
-dist
+/node_modules
+/dist
 
-/oberbayern-latest.osm.pbf
-/basetiles.mbtiles
-/basetiles.pbf
+/tmp
 /public/basetiles
+
 /.vscode
