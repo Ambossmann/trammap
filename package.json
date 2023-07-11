@@ -1,16 +1,20 @@
 {
   "name": "trammap",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "start": "vite",
     "build": "vite build",
     "serve": "vite preview"
   },
   "devDependencies": {
-    "vite": "^4.3.1"
+    "typescript": "^5.0.2",
+    "vite": "^4.3.2"
   },
   "dependencies": {
     "ol": "latest",
     "ol-mapbox-style": "^10.5.0"
-  }
+  },
+  "packageManager": "pnpm@8.6.7"
 }
