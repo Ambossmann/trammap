@@ -5,3 +5,6 @@
 /public/basetiles
 
 /.vscode
+
+/data/data_min.osm
+/data/baserails.osm

@@ -5,7 +5,7 @@ import autoprefixer from "autoprefixer";
 export default defineConfig({
   plugins: [vue()],
   build: {
-    sourcemap: true,
+    sourcemap: false,
   },
   base: "/trammap/",
   css: {

@@ -104,6 +104,10 @@ jobs:
         if: steps.cache-tiles.outputs.cache-hit != 'true'
         run: python ./mbutil/mb-util ./tmp/basetiles.mbtiles ./public/basetiles --image_format=pbf
 
+      - name: Minify data
+        shell: pwsh
+        run: ./scripts/data_minify.ps1
+
       - name: Build
         run: pnpm build
 
