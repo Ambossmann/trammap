@@ -12,25 +12,25 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.5.0",
-    "@vitejs/plugin-vue": "^4.3.4",
-    "@vue/eslint-config-prettier": "^8.0.0",
-    "@vue/eslint-config-typescript": "^11.0.3",
+    "@rushstack/eslint-patch": "^1.6.1",
+    "@vitejs/plugin-vue": "^5.0.3",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "@vue/eslint-config-typescript": "^12.0.0",
     "autoprefixer": "^10.4.16",
     "husky": "^8.0.3",
-    "lint-staged": "^13.3.0",
-    "postcss": "^8.4.30",
-    "prettier": "3.0.0",
-    "typescript": "^5.2.2",
-    "vite": "^4.4.9",
-    "vue-tsc": "^1.8.15"
+    "lint-staged": "^15.2.0",
+    "postcss": "^8.4.33",
+    "prettier": "3.2.2",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.11",
+    "vue-tsc": "^1.8.27"
   },
   "dependencies": {
-    "ol": "^7.5.2",
-    "ol-ext": "^4.0.11",
-    "ol-mapbox-style": "^10.7.0",
-    "pinia": "^2.1.6",
-    "vue": "^3.3.4"
+    "ol": "^8.2.0",
+    "ol-ext": "^4.0.13",
+    "ol-mapbox-style": "^12.1.1",
+    "pinia": "^2.1.7",
+    "vue": "^3.4.13"
   },
   "packageManager": "pnpm@8.14.1+sha1.d039b38e0b20ad012ed548e44267b8d4c88b447a",
   "lint-staged": {
