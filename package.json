@@ -32,7 +32,7 @@
     "pinia": "^2.1.6",
     "vue": "^3.3.4"
   },
-  "packageManager": "pnpm@8.6.7",
+  "packageManager": "pnpm@8.14.1+sha1.d039b38e0b20ad012ed548e44267b8d4c88b447a",
   "lint-staged": {
     "*.{js,css,md,vue}": "prettier --write"
   }
