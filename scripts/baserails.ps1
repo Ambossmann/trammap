@@ -1,3 +1,5 @@
+#!/usr/bin/env pwsh
+
 Set-Location -Path (Split-Path -Parent $PSScriptRoot)
 
 $headers=@{}

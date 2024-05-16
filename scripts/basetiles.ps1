@@ -1,3 +1,7 @@
+#!/usr/bin/env pwsh
+
+mkdir tmp
+
 Set-Location -Path (Split-Path -Parent $PSScriptRoot)
 
 if (-Not (Test-Path -Path "./tmp/bayern-latest.osm.pbf" -PathType Leaf)) {
