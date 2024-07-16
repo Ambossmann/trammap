@@ -42,7 +42,8 @@ const baseLayer = new VectorImageTileLayer({
   source: new VectorTileSource({
     attributions:
       '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>' +
-      ' © <a href="https://openmaptiles.org/">OpenMapTiles</a>',
+      ' © <a href="https://openmaptiles.org/">OpenMapTiles</a>' +
+      ' © <a href="https://www.openhistoricalmap.org/">OpenHistoricalMap contributors</a>',
     format: new MVT(),
     tileGrid: olTileGrid.createXYZ({ tileSize: 512, maxZoom: 14 }),
     url: "/trammap/basetiles/{z}/{x}/{y}.pbf",
