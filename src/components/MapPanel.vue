@@ -46,7 +46,7 @@ const baseLayer = new VectorImageTileLayer({
       ' © <a href="https://www.openhistoricalmap.org/">OpenHistoricalMap contributors</a>',
     format: new MVT(),
     tileGrid: olTileGrid.createXYZ({ tileSize: 512, maxZoom: 14 }),
-    url: "/trammap/basetiles/{z}/{x}/{y}.pbf",
+    url: "/basetiles/{z}/{x}/{y}.pbf",
   }),
   renderMode: "hybrid",
 });
@@ -67,7 +67,7 @@ const map = new Map({
 async function applyBaseLayerStyle() {
   await applyStyle(
     baseLayer,
-    `/trammap/mapstyles/${settingsStore.basemapStyle}-gl-style/style.json`,
+    `/mapstyles/${settingsStore.basemapStyle}-gl-style/style.json`,
     { updateSource: false },
   );
 }

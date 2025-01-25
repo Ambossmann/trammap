@@ -7,7 +7,7 @@ export default defineConfig({
   build: {
     sourcemap: false,
   },
-  base: "/trammap/",
+  base: "/",
   css: {
     postcss: {
       plugins: [autoprefixer],

@@ -23,10 +23,10 @@
 	"sources": {
 		"openmaptiles": {
 			"type": "vector",
-			"url": "/trammap/basetiles/metadata.json"
+			"url": "/basetiles/metadata.json"
 		}
 	},
-	"sprite": "/trammap/mapstyles/positron-gl-style/sprite",
+	"sprite": "/mapstyles/positron-gl-style/sprite",
 	"ol-webfonts": "",
 	"layers": [
 		{
