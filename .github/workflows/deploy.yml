@@ -14,11 +14,15 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  actions: write
 
 # Allow one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: true
+
+env:
+  COREPACK_ENABLE_DOWNLOAD_PROMPT: 0
 
 jobs:
   # Single deploy job since we're just deploying
@@ -30,19 +34,37 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: "recursive"
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+      - name: Install Nix
+        uses: cachix/install-nix-action@v30
         with:
-          node-version: 20
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          nix_path: nixpkgs=channel:nixos-unstable
 
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        id: pnpm-install
+      - name: Restore and cache Nix store
+        uses: nix-community/cache-nix-action@v5
         with:
-          run_install: false
+          # restore and save a cache using this key
+          primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix') }}
+          # if there's no cache hit, restore a cache by this prefix
+          restore-prefixes-first-match: nix-${{ runner.os }}-
+          # collect garbage until Nix store size (in bytes) is at most this number
+          # before trying to save a new cache
+          gc-max-store-size-linux: 1073741824
+          # do purge caches
+          purge: true
+          # purge all versions of the cache
+          purge-prefixes: cache-${{ runner.os }}-
+          # created more than this number of seconds ago relative to the start of the `Post Restore` phase
+          purge-created: 0
+          # except the version with the `primary-key`, if it exists
+          purge-primary-key: never
+
+      - name: Setup env
+        uses: JRMurr/direnv-nix-action@v4.1.0
+        with:
+          install-nix: "false"
+          cache-store: "false"
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -61,9 +83,6 @@ jobs:
       - name: Install node dependencies
         run: pnpm install
 
-      - name: Install additional dependencies
-        run: sudo apt-get install python3 osmctools osmium-tool wget
-
       - name: Cache vector tiles
         id: cache-tiles
         uses: actions/cache@v4
@@ -71,42 +90,12 @@ jobs:
           path: ./public/basetiles
           key: basetiles
 
-      - name: Create tmp dir
+      - name: Cache vector tiles
         if: steps.cache-tiles.outputs.cache-hit != 'true'
-        run: mkdir tmp
-
-      - name: Download raw geodata
-        if: steps.cache-tiles.outputs.cache-hit != 'true'
-        run: wget https://download.geofabrik.de/europe/germany/bayern-latest.osm.pbf -O "./tmp/bayern-latest.osm.pbf"
-
-      - name: Clip geodata
-        if: steps.cache-tiles.outputs.cache-hit != 'true'
-        run: osmium extract -b 10.79,47.84,12.32,48.43 --set-bounds "./tmp/bayern-latest.osm.pbf" -o "./tmp/basetiles.osm" --overwrite -v
-
-      - name: Remove tram rails from data
-        if: steps.cache-tiles.outputs.cache-hit != 'true'
-        run: osmfilter -v "./tmp/basetiles.osm" --drop-ways="railway=tram" --drop-ways="razed:railway=tram" --drop-ways="abandoned:railway=tram" --drop-ways="disused:railway=tram" -o="./tmp/basetiles-reduced.osm"
-
-      - name: Convert OSM XML back to pbf
-        if: steps.cache-tiles.outputs.cache-hit != 'true'
-        run: osmium cat "./tmp/basetiles-reduced.osm" -o "./tmp/basetiles.pbf" --overwrite -v
-
-      - name: Generate vector tiles
-        if: steps.cache-tiles.outputs.cache-hit != 'true'
-        uses: systemed/tilemaker@v3.0.0
-        with:
-          input: ./tmp/basetiles.pbf
-          output: ./tmp/basetiles.mbtiles
-          config: ./tilemakerconfig.json
-          process: ./tilemakerprocess.lua
-
-      - name: Extract Tiles
-        if: steps.cache-tiles.outputs.cache-hit != 'true'
-        run: python3 ./mbutil/mb-util ./tmp/basetiles.mbtiles ./public/basetiles --image_format=pbf
+        run: basetiles
 
       - name: Minify data
-        shell: pwsh
-        run: ./scripts/data_minify.ps1
+        run: data_minify
 
       - name: Build
         run: pnpm build
