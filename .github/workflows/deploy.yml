@@ -61,7 +61,7 @@ jobs:
           purge-primary-key: never
 
       - name: Setup env
-        uses: JRMurr/direnv-nix-action@v4.1.0
+        uses: JRMurr/direnv-nix-action@v4.2.0
         with:
           install-nix: "false"
           cache-store: "false"
